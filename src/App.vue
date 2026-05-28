@@ -1,9 +1,7 @@
 <script setup>
 
 </script>
-
+<!-- chama as rotas -->
 <template>
-  <div class="bg-green-500 text-red-600">
-    Teste
-  </div>
+  <router-view/>
 </template>
