@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
 //importando e definindo as rotas
-import HomePage from '../views/homePage.vue';
+import HomeView from '../views/HomeView.vue';
 
 
 const router = createRouter({
@@ -10,8 +10,8 @@ const router = createRouter({
     routes: [ 
         {
             path: '/',
-            name: 'HomePage',
-            component: HomePage
+            name: 'HomeView',
+            component: HomeView
         },
     ],
 })
