@@ -31,7 +31,6 @@ import SearchBar from './SearchBar.vue';
 
             <img src="../assets/red-icon.jpeg" class="w-14 h-14 rounded-full">
 
-
         </div>
         <SearchBar class="lg:hidden" />
     </nav>
