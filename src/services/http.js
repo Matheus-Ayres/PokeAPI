@@ -31,3 +31,19 @@ export async function getPokemonTypes() {
         throw error
     }
 }
+
+export async function getGenerations() {
+    try {
+        const response = await http.get('generation')
+
+        return response.data.results.map(generation => {
+            const id = generation.url.split('/').filter(Boolean).pop()
+
+            return Number(id)
+        })
+
+    } catch (error) {
+        console.error('Erro ao obter as gerações de Pokémon:', error)
+        throw error
+    }
+}

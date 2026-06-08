@@ -1,4 +1,5 @@
 <script setup>
+import Generation from '../components/Generation.vue';
 import NavBar from '../components/NavBar.vue';
 import PokeTypesDesktop from '../components/PokeTypesDesktop.vue';
 import PokeTypesMobile from '../components/PokeTypesMobile.vue';
@@ -14,8 +15,9 @@ import PokeTypesMobile from '../components/PokeTypesMobile.vue';
             <div class="lg:hidden">
                 <PokeTypesMobile/>
             </div>
-            <div class="bg-white rounded-xl p-4  hidden lg:block">
+            <div class="bg-white rounded-xl p-4 hidden lg:flex flex-col gap-4">
                 <PokeTypesDesktop/>
+                <Generation/>
             </div>
         </main>
     </body>
