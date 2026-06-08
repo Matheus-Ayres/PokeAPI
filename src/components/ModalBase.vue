@@ -4,10 +4,7 @@ defineProps({
         type: Boolean,
         required: true
     },
-    title: {
-        type: String,
-        default: 'Modal'
-    }
+    title: String,
 })
 
 const emit = defineEmits(['close'])

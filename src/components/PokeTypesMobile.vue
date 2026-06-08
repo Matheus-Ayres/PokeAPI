@@ -3,7 +3,7 @@ import TypeCard from './TypeCard.vue'
 import BaseModal from './ModalBase.vue'
 
 import { onMounted, ref } from 'vue'
-import { getPokemonTypes } from '../services/http'
+import { getPokemonTypes } from '../services/http.js'
 
 const types = ref([])
 const showTypesModal = ref(false)
