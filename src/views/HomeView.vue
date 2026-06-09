@@ -5,6 +5,7 @@ import Generation from '../components/Generation.vue'
 import NavBar from '../components/NavBar.vue'
 import PokeTypesDesktop from '../components/PokeTypesDesktop.vue'
 import PokeTypesMobile from '../components/PokeTypesMobile.vue'
+import { RouterView } from 'vue-router'
 
 const selectedType = ref('')
 const selectedGeneration = ref(null)
@@ -32,6 +33,7 @@ const selectedGeneration = ref(null)
                 :selected-type="selectedType"
                 :selected-generation="selectedGeneration"
             />
+            <RouterView/>
         </main>
     </div>
 </template>
