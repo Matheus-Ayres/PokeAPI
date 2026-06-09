@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { getPokemonList } from '../services/http'
 import PokeCard from './PokeCard.vue'
 
@@ -9,12 +9,16 @@ const error = ref(null)
 
 const currentPage = ref(1)
 const perPage = 6 // Número de Pokémon por página
-const allPokemons = 1350 // Número total de Pokémon conhecidos (pode ser atualizado conforme necessário)
+const allPokemons = 1025 // Número total de Pokémon conhecidos (pode ser atualizado conforme necessário)
 
 const props = defineProps({ // Definindo a prop para o tipo selecionado
     selectedType: {
         type: String,
         default: ''
+    },
+    selectedGeneration: {
+        type: Number,
+        default: null
     }
 })
 
@@ -39,17 +43,24 @@ const totalPages = computed(() => { // Função para calcular o total de página
     return Math.ceil(filteredPokemons.value.length / perPage)  
 })
 
-const filteredPokemons = computed(() => { // função para filtrar os Pokémon com base no tipo selecionado
-    if (!props.selectedType) {
-        return pokemons.value
-    }
+const filteredPokemons = computed(() => {
+    return pokemons.value.filter(pokemon => {
+        const matchesType = !props.selectedType ||
+            pokemon.types.some(type => type.name === props.selectedType)
 
-    return pokemons.value.filter(pokemon =>
-        pokemon.types.some(
-            t => t.type.name === props.selectedType
-        )
-    )
+        const matchesGeneration = !props.selectedGeneration ||
+            pokemon.generation === props.selectedGeneration
+
+        return matchesType && matchesGeneration
+    })
 })
+
+watch(
+    () => [props.selectedType, props.selectedGeneration],
+    () => {
+        currentPage.value = 1
+    }
+)
 
 const paginatedPokemons = computed(() => { // Função para obter os Pokémon da página atual
     const start = (currentPage.value - 1) * perPage   
@@ -124,7 +135,7 @@ onMounted(() => {
             </h2>
 
             <span class="text-sm text-gray-500">
-                {{ pokemons.length }} encontrados
+                {{ filteredPokemons.length }} encontrados
             </span>
         </div>
 
