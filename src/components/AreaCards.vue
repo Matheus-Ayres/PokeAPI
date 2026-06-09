@@ -11,12 +11,22 @@ const currentPage = ref(1)
 const perPage = 6 // Número de Pokémon por página
 const allPokemons = 1350 // Número total de Pokémon conhecidos (pode ser atualizado conforme necessário)
 
+const props = defineProps({ // Definindo a prop para o tipo selecionado
+    selectedType: {
+        type: String,
+        default: ''
+    }
+})
+
 async function getPokemons() {    
     try {
         loading.value = true
         error.value = null
 
         pokemons.value = await getPokemonList(allPokemons)
+
+          console.log('Primeiro Pokémon:')
+        console.log(pokemons.value[0])
     } catch (err) {
         error.value = 'Erro ao carregar os Pokémon.'
         console.error('Erro ao obter a lista de Pokémon:', err)
@@ -26,14 +36,26 @@ async function getPokemons() {
 }
 
 const totalPages = computed(() => { // Função para calcular o total de páginas
-    return Math.ceil(pokemons.value.length / perPage)   
+    return Math.ceil(filteredPokemons.value.length / perPage)  
+})
+
+const filteredPokemons = computed(() => { // função para filtrar os Pokémon com base no tipo selecionado
+    if (!props.selectedType) {
+        return pokemons.value
+    }
+
+    return pokemons.value.filter(pokemon =>
+        pokemon.types.some(
+            t => t.type.name === props.selectedType
+        )
+    )
 })
 
 const paginatedPokemons = computed(() => { // Função para obter os Pokémon da página atual
     const start = (currentPage.value - 1) * perPage   
     const end = start + perPage
 
-    return pokemons.value.slice(start, end)
+    return filteredPokemons.value.slice(start, end)
 })
 
 const visiblePages = computed(() => { // Função para calcular as páginas visíveis na paginação
