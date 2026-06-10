@@ -11,16 +11,16 @@ const currentPage = ref(1)
 const perPage = 6 // Número de Pokémon por página
 const allPokemons = 1025 // Número total de Pokémon conhecidos (pode ser atualizado conforme necessário)
 
-const props = defineProps({ // Definindo a prop para o tipo selecionado
-    selectedType: {
-        type: String,
-        default: ''
+const props = defineProps({ // definindo a prop para o tipo selecionado e a geração, em um array e um número respectivamente
+    selectedTypes: {
+        type: Array,
+        default: () => [],
     },
     selectedGeneration: {
         type: Number,
-        default: null
-    }
-})
+        default: null,
+    },
+}) 
 
 async function getPokemons() {    
     try {
@@ -45,18 +45,27 @@ const totalPages = computed(() => { // Função para calcular o total de página
 
 const filteredPokemons = computed(() => {
     return pokemons.value.filter(pokemon => {
-        const matchesType = !props.selectedType ||
-            pokemon.types.some(type => type.name === props.selectedType)
+        const pokemonTypeNames = pokemon.types.map(type => type.name)
 
-        const matchesGeneration = !props.selectedGeneration ||
+        const matchesTypes =
+            props.selectedTypes.length === 0 ||
+            props.selectedTypes.every(selectedType =>
+                pokemonTypeNames.includes(selectedType)
+            )
+
+        const matchesGeneration =
+            !props.selectedGeneration ||
             pokemon.generation === props.selectedGeneration
 
-        return matchesType && matchesGeneration
+        return matchesTypes && matchesGeneration
     })
 })
 
 watch(
-    () => [props.selectedType, props.selectedGeneration],
+    () => [
+        ...props.selectedTypes,
+        props.selectedGeneration
+    ],
     () => {
         currentPage.value = 1
     }
