@@ -68,6 +68,24 @@ export async function getPokemonByID(id) {
         ? descriptionEntry.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ')
         : 'Descrição não encontrada.'
 
+    const abilities = pokemon.abilities.map(abilityInfo => {
+        return {
+            name: abilityInfo.ability.name,
+            isHidden: abilityInfo.is_hidden
+        }
+    })
+
+    const stats = pokemon.stats.map(statInfo => {
+        return {
+            name: statInfo.stat.name,
+            value: statInfo.base_stat
+        }
+    })
+
+    const totalStats = stats.reduce((total, stat) => {
+        return total + stat.value
+    }, 0)
+
     return {
         id: pokemon.id,
         name: pokemon.name,
@@ -75,6 +93,9 @@ export async function getPokemonByID(id) {
         weight: pokemon.weight,
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`,
         description: description,
+        abilities: abilities,
+        stats: stats,
+        totalStats: totalStats,
         types: pokemon.types.map(typeInfo => {
             const typeId = typeInfo.type.url.split('/').filter(Boolean).pop()
 

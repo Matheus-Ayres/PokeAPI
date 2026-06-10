@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { getPokemonByID } from '../services/http';
 import router from '../router';
 import { useRoute } from 'vue-router';
+import Details from '../components/Details.vue';
 
 const route = useRoute()
 
@@ -32,7 +33,7 @@ watch(
 
 
 <template>
-    <div class="p-5 bg-white rounded-xl shadow-sm">
+    <div class="p-5 bg-white rounded-xl shadow-sm mr-8">
         <span class="font-bold text-gray-500">
             #{{ formatPokemonNumber(pokemonInfo.id) }}
         </span>
@@ -53,16 +54,18 @@ watch(
                 <section class="flex items-center gap-8">
                     <div class="flex flex-col gap-4">
                         <span class="text-gray-600">Altura</span>
-                        <span class="text-gray-600">{{ pokemonInfo.height }} m</span>
+                        <span class="font-bold font-['Nunito'] text-md text-gray-900">{{ pokemonInfo.height }} m</span>
                     </div>
                     <div class="flex flex-col gap-4">
                         <span class="text-gray-600">Peso</span>
-                        <span class="text-gray-600">{{ pokemonInfo.weight }} kg</span>
+                        <span class="font-bold font-['Nunito'] text-md text-gray-900">{{ pokemonInfo.weight }} kg</span>
                     </div>
                 </section>
             </div>
             <img :src="pokemonInfo.image" :alt="pokemonInfo.name" class="w-64 h-48 object-contain">
         </div>
+
+        <Details :pokemon="pokemonInfo" class="mt-5"/>
     </div>
 
 </template>

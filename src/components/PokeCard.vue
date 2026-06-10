@@ -27,7 +27,7 @@ function formatPokemonNumber(id) {
             <img :src="pokemon.image" :alt="pokemon.name" class="w-36 h-36 object-contain mx-auto my-4">
 
             <div>
-                <h3 class="font-bold text-lg capitalize text-gray-900">
+                <h3 class="font-bold font-['Nunito'] text-xl text-gray-900 capitalize">
                     {{ pokemon.name }}
                 </h3>
 
