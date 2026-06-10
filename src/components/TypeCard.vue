@@ -1,19 +1,48 @@
 <script setup>
-defineProps({
+const props = defineProps({
     type: {
         type: Object,
-        required: true
-    }
+        required: true,
+    },
+    selected: {
+        type: Boolean,
+        default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 })
+
+const emit = defineEmits(['select'])
 </script>
 
 <template>
-    <button type="button"
-        class="grid h-11 w-full grid-cols-[24px_1fr] items-center gap-2 rounded-xl border border-red-500 bg-white shadow-md px-3 transition hover:bg-red-50">
+    <button
+        type="button"
+        :disabled="disabled"
+        @click="emit('select', props.type.name)"
+        class="grid h-11 w-full grid-cols-[24px_1fr] items-center gap-2 rounded-xl border px-3 shadow-md transition"
+        :class="[
+            selected
+                ? 'border-red-500 bg-red-500 text-white'
+                : 'border-red-500 bg-white hover:bg-red-50',
 
-        <img :src="type.icon" :alt="type.name" class="h-5 w-5 object-contain justify-self-center rounded-full">
+            disabled
+                ? 'cursor-not-allowed opacity-40 hover:bg-white'
+                : ''
+        ]"
+    >
+        <img
+            :src="type.icon"
+            :alt="type.name"
+            class="h-5 w-5 object-contain justify-self-center rounded-full"
+        >
 
-        <span class="font-['Nunito'] text-xs font-bold capitalize text-gray-800 text-left">
+        <span
+            class="font-['Nunito'] text-xs font-bold capitalize text-left"
+            :class="selected ? 'text-white' : 'text-gray-800'"
+        >
             {{ type.name }}
         </span>
     </button>

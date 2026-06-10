@@ -8,6 +8,20 @@ const http = axios.create({
     },
 });
 
+function getGenerationById(id) {
+    if (id <= 151) return 1
+    if (id <= 251) return 2
+    if (id <= 386) return 3
+    if (id <= 493) return 4
+    if (id <= 649) return 5
+    if (id <= 721) return 6
+    if (id <= 809) return 7
+    if (id <= 905) return 8
+    if (id <= 1025) return 9
+
+    return null
+}
+
 export async function getPokemonList(limit) {
     const response = await http.get(`pokemon?limit=${limit}`)
 
@@ -28,11 +42,12 @@ export async function getPokemonList(limit) {
             })
 
             return {
-                id: Number(id),
-                name: pokemon.name,
-                url: pokemon.url,
-                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
-                types: types
+                 id,
+                 name: pokemon.name,
+                 url: pokemon.url,
+                 image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+                types,
+                 generation: getGenerationById(id),
             }
         })
     )
