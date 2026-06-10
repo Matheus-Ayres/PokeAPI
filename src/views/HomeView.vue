@@ -6,7 +6,7 @@ import NavBar from '../components/NavBar.vue'
 import PokeTypesDesktop from '../components/PokeTypesDesktop.vue'
 import PokeTypesMobile from '../components/PokeTypesMobile.vue'
 
-const selectedType = ref('')
+const selectedTypes = ref([])
 const selectedGeneration = ref(null)
 </script>
 
@@ -16,7 +16,7 @@ const selectedGeneration = ref(null)
     <div class="p-5">
         <main class="lg:grid lg:grid-cols-[20%_50%_30%] gap-4">
             <div class="mb-4 flex flex-col gap-4 lg:hidden">
-                <PokeTypesMobile v-model:selectedType="selectedType" />
+                <PokeTypesMobile v-model:selectedTypes="selectedTypes" />
 
                 <div class="rounded-xl bg-white p-4">
                     <Generation v-model:selectedGeneration="selectedGeneration" />
@@ -24,12 +24,12 @@ const selectedGeneration = ref(null)
             </div>
 
             <aside class="bg-white rounded-xl p-4 hidden lg:flex flex-col gap-4">
-                <PokeTypesDesktop v-model:selectedType="selectedType" />
+                <PokeTypesDesktop v-model:selectedTypes="selectedTypes" />
                 <Generation v-model:selectedGeneration="selectedGeneration" />
             </aside>
 
             <AreaCards
-                :selected-type="selectedType"
+                :selected-types="selectedTypes"
                 :selected-generation="selectedGeneration"
             />
         </main>
