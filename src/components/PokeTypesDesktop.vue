@@ -3,14 +3,15 @@ import TypeCard from './TypeCard.vue'
 import { onMounted, ref } from 'vue'
 import { getPokemonTypes } from '../services/http.js'
 
-defineProps({
-    selectedType: {
-        type: String,
-        default: '',
+const props = defineProps({
+    selectedTypes: {
+        type: Array,
+        default: () => [],
     },
 })
 
-const emit = defineEmits(['update:selectedType'])
+const emit = defineEmits(['update:selectedTypes'])
+
 const types = ref([])
 
 async function PokemonTypes() {
@@ -18,7 +19,26 @@ async function PokemonTypes() {
 }
 
 function selectType(typeName) {
-    emit('update:selectedType', typeName)
+    const selected = [...props.selectedTypes]
+
+    if (selected.includes(typeName)) {
+        emit(
+            'update:selectedTypes',
+            selected.filter(type => type !== typeName)
+        )
+
+        return
+    }
+
+    if (selected.length >= 2) {
+        return
+    }
+
+    emit('update:selectedTypes', [...selected, typeName])
+}
+
+function clearTypes() {
+    emit('update:selectedTypes', [])
 }
 
 onMounted(PokemonTypes)
@@ -27,12 +47,21 @@ onMounted(PokemonTypes)
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
-            <span class="font-bold font-['Nunito'] text-xl">Tipos</span>
+            <div>
+                <span class="font-bold font-['Nunito'] text-xl">
+                    Tipos
+                </span>
+
+                <p class="text-xs text-gray-500">
+                    Selecione até 2 tipos
+                </p>
+            </div>
+
             <button
-                v-if="selectedType"
+                v-if="selectedTypes.length"
                 type="button"
                 class="text-xs font-bold text-red-500"
-                @click="selectType('')"
+                @click="clearTypes"
             >
                 Limpar
             </button>
@@ -43,7 +72,11 @@ onMounted(PokemonTypes)
                 v-for="type in types"
                 :key="type.name"
                 :type="type"
-                :selected="selectedType === type.name"
+                :selected="selectedTypes.includes(type.name)"
+                :disabled="
+                    selectedTypes.length >= 2 &&
+                    !selectedTypes.includes(type.name)
+                "
                 @select="selectType"
             />
         </div>
