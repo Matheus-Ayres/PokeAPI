@@ -10,7 +10,7 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
-    <div class="relative mb-4">
+    <div class="relative">
         <img
             src="../assets/search.png"
             alt=""
