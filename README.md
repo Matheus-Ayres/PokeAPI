@@ -177,7 +177,7 @@ No vídeo, todos os integrantes do grupo deverão participar da apresentação e
 ## Integrantes
 
 * Eduardo Dal Pozzo
-* Ma
+* Matheus Ayres
 
 ## Requisitos atendidos
 
