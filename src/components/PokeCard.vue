@@ -18,10 +18,7 @@ function formatPokemonNumber(id) {
                 <span class="font-bold text-gray-500">
                     #{{ formatPokemonNumber(pokemon.id) }}
                 </span>
-
-                <button type="button" class="text-gray-400 hover:text-red-500 transition">
-                    ♡
-                </button>
+         
             </div>
 
             <img :src="pokemon.image" :alt="pokemon.name" class="w-36 h-36 object-contain mx-auto my-4">

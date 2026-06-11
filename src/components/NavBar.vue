@@ -21,12 +21,9 @@ import SearchBar from './SearchBar.vue';
 
             <div class="hidden lg:flex gap-1 items-center group cursor-pointer">
                 <div class="relative w-5 h-5">
-                    <img src="../assets/favs.png" class="absolute inset-0 group-hover:hidden">
-
-                    <img src="../assets/liked.png" class="absolute inset-0 hidden group-hover:block">
                 </div>
 
-                <span class="text-white">Favoritos</span>
+                <span class="text-white"></span>
             </div>
 
             <img src="../assets/red-icon.jpeg" class="w-14 h-14 rounded-full">
