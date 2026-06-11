@@ -42,17 +42,71 @@ export async function getPokemonList(limit) {
             })
 
             return {
-                 id,
-                 name: pokemon.name,
-                 url: pokemon.url,
-                 image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+                id,
+                name: pokemon.name,
+                url: pokemon.url,
+                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
                 types,
-                 generation: getGenerationById(id),
+                generation: getGenerationById(id),
             }
         })
     )
 }
 
+export async function getPokemonByID(id) {
+    const response = await http.get(`pokemon/${id}`)
+    const pokemon = response.data
+
+    const speciesResponse = await http.get(`pokemon-species/${id}`)
+    const species = speciesResponse.data
+
+    const descriptionEntry = species.flavor_text_entries.find(entry => {
+        return entry.language.name === 'en'
+    })
+
+    const description = descriptionEntry
+        ? descriptionEntry.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ')
+        : 'Descrição não encontrada.'
+
+    const abilities = pokemon.abilities.map(abilityInfo => {
+        return {
+            name: abilityInfo.ability.name,
+            isHidden: abilityInfo.is_hidden
+        }
+    })
+
+    const stats = pokemon.stats.map(statInfo => {
+        return {
+            name: statInfo.stat.name,
+            value: statInfo.base_stat
+        }
+    })
+
+    const totalStats = stats.reduce((total, stat) => {
+        return total + stat.value
+    }, 0)
+
+    return {
+        id: pokemon.id,
+        name: pokemon.name,
+        height: pokemon.height,
+        weight: pokemon.weight,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`,
+        description: description,
+        abilities: abilities,
+        stats: stats,
+        totalStats: totalStats,
+        types: pokemon.types.map(typeInfo => {
+            const typeId = typeInfo.type.url.split('/').filter(Boolean).pop()
+
+            return {
+                id: Number(typeId),
+                name: typeInfo.type.name,
+                icon: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/small/${typeId}.png`
+            }
+        })
+    }
+}
 
 export async function getPokemonTypes() {
     try {

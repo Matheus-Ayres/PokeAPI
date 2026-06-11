@@ -34,26 +34,11 @@ const emit = defineEmits(['update:searchQuery'])
                 @update:model-value="emit('update:searchQuery', $event)"
             />
 
-            <div
-                class="group hidden cursor-pointer items-center gap-1 lg:flex"
-            >
-                <div class="relative h-5 w-5">
-                    <img
-                        src="../assets/favs.png"
-                        alt=""
-                        class="absolute inset-0 group-hover:hidden"
-                    >
-
-                    <img
-                        src="../assets/liked.png"
-                        alt=""
-                        class="absolute inset-0 hidden group-hover:block"
-                    >
+            <div class="hidden lg:flex gap-1 items-center group cursor-pointer">
+                <div class="relative w-5 h-5">
                 </div>
 
-                <span class="text-white">
-                    Favoritos
-                </span>
+                <span class="text-white"></span>
             </div>
 
             <img

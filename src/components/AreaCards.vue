@@ -48,6 +48,9 @@ async function getPokemons() {
         error.value = null
 
         pokemons.value = await getPokemonList(pokemonLimit)
+
+        console.log('Primeiro Pokémon:')
+        console.log(pokemons.value[0])
     } catch (err) {
         error.value = 'Erro ao carregar os Pokémon.'
         console.error('Erro ao obter a lista de Pokémon:', err)

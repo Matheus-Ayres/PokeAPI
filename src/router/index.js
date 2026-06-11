@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 //importando e definindo as rotas
 import HomeView from '../views/HomeView.vue';
+import PokeView from '../views/PokeView.vue';
 
 
 const router = createRouter({
@@ -11,7 +12,14 @@ const router = createRouter({
         {
             path: '/',
             name: 'HomeView',
-            component: HomeView
+            component: HomeView,
+            children: [
+                {
+                    path: 'pokemon/:id',
+                    name: 'PokeView',
+                    component: PokeView,
+                }
+            ]
         },
     ],
 })
